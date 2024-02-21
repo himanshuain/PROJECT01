@@ -6,6 +6,7 @@ import { useRef } from "react";
 import _ from "lodash";
 import React, { useState, useEffect } from "react";
 import { fetchCinemaData } from "@/Service/queries";
+import { Loader } from "./Loader";
 // import {
 //   AlertDialog,
 //   AlertDialogContent,
@@ -61,7 +62,7 @@ export const CinemaContainer = ({ searchInput }) => {
   }, 300);
 
   if (isLoading && data.length === 0) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   // TODO: Show a dialog for api error

@@ -2,7 +2,6 @@
 // @ts-nocheck
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 import { useRef } from "react";
 import _ from "lodash";
 import React, { useState, useEffect } from "react";
@@ -16,7 +15,6 @@ import { fetchCinemaData } from "@/Service/queries";
 // } from "./ui/alert-dialog";
 
 export const CinemaContainer = ({ searchInput }) => {
-  console.log("iiinput", searchInput);
   const [data, setData] = useState([]);
   //   const [pageLoad, setPageLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +25,6 @@ export const CinemaContainer = ({ searchInput }) => {
 
   const fetchData = async () => {
     try {
-      console.log("iiinput", searchInput);
       setIsFetchingNextPage(true);
       const response = await fetchCinemaData({ pageParam: paginationKey, searchInput });
       const newData = response.results;
@@ -64,7 +61,7 @@ export const CinemaContainer = ({ searchInput }) => {
   }, 300);
 
   if (isLoading && data.length === 0) {
-    return <div>Api call is disabled for now.</div>;
+    return <div>Loading...</div>;
   }
 
   // TODO: Show a dialog for api error

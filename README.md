@@ -1,4 +1,4 @@
-# Check the live project @[Link](https://cinewalls.vercel.app)
+# Check the [Live](https://animelookout.vercel.app/) project.
 
 Started this project in vscode.
 First check node version. I installed 18.14 (current stable latest)

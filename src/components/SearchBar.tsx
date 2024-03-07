@@ -1,19 +1,88 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Search } from "lucide-react";
+import { Search as SearchIcon } from "lucide-react";
+import { useExtractAnimeUsingUrlQuery } from "@/Service/queries";
+import { Loader } from "./Loader";
 
 interface SearchBarProps {
-  setInput: (input: string) => void;
+  setData: (data: {
+    result: {
+      anilist: {
+        id: number;
+        isAdult: boolean;
+        title: {
+          romaji: string;
+          native: string;
+          english: string;
+        };
+        image: string;
+        similarity: number;
+        video: string;
+      };
+    }[];
+    frameCount: number | null;
+    apiTookTime: number | undefined;
+  }) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
-export const SearchBar = ({ setInput }: SearchBarProps) => {
+
+export const SearchBar = ({ setData, setIsLoading }: SearchBarProps) => {
   const [searchInput, setSearchInput] = useState("");
+  const [searchClicked, setSearchClicked] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [isLoading, setLoading] = useState(false);
+
+  const {
+    refetch: fetchAnimeUsingUrl,
+    isLoading: isLoadingUrlData,
+    data: dataUsingUrl,
+  } = useExtractAnimeUsingUrlQuery(searchInput);
+
+  const handleSearch = () => {
+    setSearchClicked(true);
+    setLoading(true);
+    fetchAnimeUsingUrl();
+  };
+
+  useEffect(() => {
+    if (dataUsingUrl && !dataUsingUrl?.error) {
+      setData({
+        result: dataUsingUrl?.data?.result,
+        frameCount: dataUsingUrl?.data?.frameCount,
+        apiTookTime: dataUsingUrl?.tookTime,
+      });
+      setImageUrl(searchInput);
+    }
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataUsingUrl, setData]);
+
+  useEffect(() => {
+    setIsLoading(isLoadingUrlData);
+  }, [isLoadingUrlData, setIsLoading]);
+
   return (
-    <div className="sticky top-0 z-10 bg-white py-4 px-60 flex items-center space-x-2 shadow">
-      <Input type="text" placeholder="Search" onChange={e => setSearchInput(e.target.value)} />
-      <Button onClick={() => setInput(searchInput)}>
-        <Search />
-      </Button>
+    <div className="flex flex-col">
+      <div className="sticky top-0 z-10 py-4 px-4 flex items-center space-x-2 shadow rounded-lg">
+        <Input
+          type="text"
+          placeholder="Search"
+          value={searchInput}
+          onChange={e => setSearchInput(e.target.value)}
+        />
+        <Button disabled={!searchInput} onClick={handleSearch}>
+          {!isLoading ? <SearchIcon /> : <Loader size={24} />}
+        </Button>
+      </div>
+      {dataUsingUrl?.error && <p className="text-red-500 px-4 mb-10">{dataUsingUrl?.error}</p>}
+      {searchClicked && imageUrl && (
+        <img
+          src={imageUrl}
+          className="w-1/2 h-1/2 mb-4 object-cover rounded-xl self-center"
+          alt="No image found for this Url."
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 // import { CinemaContainer } from "./CinemaContainer";
+// import { useEffect } from "react";
 import { AnimeResults } from "./AnimeResults";
 import { Sparkles } from "./TopLanding";
 import { ScrollArea } from "./ui/scroll-area";
@@ -8,8 +9,14 @@ import { ScrollArea } from "./ui/scroll-area";
 // import { MaskContainer } from "./ui/svg-mask-effect";
 // @ts-nocheck
 export function MainContainer() {
+  // useEffect(() => {
+  //   window.scroll({
+  //     top: 0,
+  //     behavior: "smooth", // Add smooth scrolling behavior
+  //   });
+  // }, []);
   return (
-    <ScrollArea className="rounded-md border max-h-full overflow-y-auto dark:bg-black">
+    <ScrollArea className="rounded-md border max-h-full h-screen overflow-y-auto dark:bg-black">
       {/* <div className="flex flex-col h-screen dark:bg-black"> */}
       {/* <SearchBar setInput={setInput} /> */}
       <div className="flex-1 overflow-y-auto ">
@@ -56,7 +63,7 @@ export function MainContainer() {
         <Sparkles />
 
         <div className="flex flex-col items-center justify-center my-10 mx-4">
-          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          <h2 className="scroll-m-20 pb-2 md:text-xl lg:text-3xl font-semibold tracking-tight first:mt-0">
             Your Anime Awaits! Search for anime with Image-Extraction!
           </h2>
           <p className="text-md text-muted-foreground">Use a screenshot, image or GIF.</p>

@@ -9,12 +9,6 @@ import { ScrollArea } from "./ui/scroll-area";
 // import { MaskContainer } from "./ui/svg-mask-effect";
 // @ts-nocheck
 export function MainContainer() {
-  // useEffect(() => {
-  //   window.scroll({
-  //     top: 0,
-  //     behavior: "smooth", // Add smooth scrolling behavior
-  //   });
-  // }, []);
   return (
     <ScrollArea className="rounded-md border max-h-full h-screen overflow-y-auto dark:bg-black">
       {/* <div className="flex flex-col h-screen dark:bg-black"> */}

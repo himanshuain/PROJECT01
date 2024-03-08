@@ -1,26 +1,16 @@
 import { useEffect, useState } from "react";
+import * as R from "ramda";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Search as SearchIcon } from "lucide-react";
 import { useExtractAnimeUsingUrlQuery } from "@/Service/queries";
 import { Loader } from "./Loader";
+import { filterDataByUniqueIds } from "@/lib/utils";
+import { data } from "@/InterfaceTypes";
 
 interface SearchBarProps {
   setData: (data: {
-    result: {
-      anilist: {
-        id: number;
-        isAdult: boolean;
-        title: {
-          romaji: string;
-          native: string;
-          english: string;
-        };
-        image: string;
-        similarity: number;
-        video: string;
-      };
-    }[];
+    result: data;
     frameCount: number | null;
     apiTookTime: number | undefined;
   }) => void;
@@ -47,8 +37,15 @@ export const SearchBar = ({ setData, setIsLoading }: SearchBarProps) => {
 
   useEffect(() => {
     if (dataUsingUrl && !dataUsingUrl?.error) {
+      const filteredData = R.pipe(
+        // R.prop(0),
+        filterDataByUniqueIds("anilist"),
+        R.take(6)
+      )(dataUsingUrl?.data?.result);
+
       setData({
-        result: dataUsingUrl?.data?.result,
+        result: filteredData as data,
+        // result: dataUsingUrl?.data?.result,
         frameCount: dataUsingUrl?.data?.frameCount,
         apiTookTime: dataUsingUrl?.tookTime,
       });

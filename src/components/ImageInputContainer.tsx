@@ -9,6 +9,7 @@ import {
 } from "@/Service/queries";
 import { anilistUrl } from "@/Service/restUrls";
 import FileUpload from "./FileUploadDnD";
+import { filterDataByUniqueIds } from "@/lib/utils";
 // import { anilistGraphqlData } from "../MockData/anilistData";
 
 const ColorPaletteFromImage = ({ imageUrl }) => {
@@ -195,7 +196,7 @@ export function ImageInputContainer({ setData, setIsLoading }) {
       } = dataUsingMediaUpload;
       const filteredData = R.pipe(
         // R.prop(0),
-        R.uniqBy(R.path(["anilist", "id"])),
+        filterDataByUniqueIds("anilist"),
         R.take(6)
       )(data?.result);
       setData({

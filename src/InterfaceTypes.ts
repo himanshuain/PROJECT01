@@ -12,3 +12,35 @@ export type data = {
     video: string;
   };
 }[];
+
+export type graphQLAnimeInfoProps = {
+  isAdult: boolean;
+  title: {
+    romaji: string;
+    english: string;
+    native: string;
+  };
+  bannerImage: string;
+  coverImage: {
+    large: string;
+  };
+  startDate: {
+    year: number;
+    month: number;
+    day: number;
+  };
+  endDate: {
+    year: number;
+    month: number;
+    day: number;
+  };
+  episodes: number;
+  status: string;
+  externalLinks: {
+    url: string;
+    site: string;
+    id: number;
+  }[];
+  genres: string[];
+  siteUrl: string;
+};

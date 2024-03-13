@@ -1,15 +1,16 @@
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+// import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { Skeleton } from "./skeleton";
+import { AnimeInfoDialog } from "../AnimeInfoDialog";
 // import { CardTitle } from "@/components/ui/card";
 
 export const CardsWithHoverEffect = ({
   items,
   // apiTookTime,
   className,
-  setResultId,
-}: {
+}: // setSelectedCardId,
+{
   items: {
     anilist: {
       id: number;
@@ -20,6 +21,7 @@ export const CardsWithHoverEffect = ({
         english: string;
       };
     };
+    episode: number | null;
     image: string;
     similarity: number;
     video: string;
@@ -29,9 +31,18 @@ export const CardsWithHoverEffect = ({
   }[];
   className?: string;
   // apiTookTime?: number;
-  setResultId: (id: number | null) => void;
+  // setSelectedCardId: (id: number | null) => void;
 }) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  // const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [selectedCard, setSelectedCard] = useState<{
+    id: number | null;
+    videoUrl?: string;
+    episode: number | null;
+  }>({
+    id: null,
+    videoUrl: "",
+    episode: null,
+  });
 
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10", className)}>
@@ -39,13 +50,21 @@ export const CardsWithHoverEffect = ({
         items.map((item, idx) => (
           <span
             // href={item.link}
-            onClick={() => setResultId(item.anilist.id)}
+            onClick={() => {
+              // setSelectedCardId(item.anilist.id);
+              setSelectedCard({
+                id: item.anilist.id,
+                videoUrl: `${item.video}&size=l`,
+                episode: item.episode,
+              });
+              // console.log(item.anilist.id);
+            }}
             key={`${item.anilist.id}-${idx}`}
             className="relative group block p-2 h-full w-full"
-            onMouseEnter={() => setHoveredIndex(idx)}
-            onMouseLeave={() => setHoveredIndex(null)}
+            // onMouseEnter={() => setHoveredIndex(idx)}
+            // onMouseLeave={() => setHoveredIndex(null)}
           >
-            <AnimatePresence>
+            {/* <AnimatePresence>
               {hoveredIndex === idx && (
                 <motion.span
                   className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-3xl"
@@ -61,9 +80,12 @@ export const CardsWithHoverEffect = ({
                   }}
                 />
               )}
-            </AnimatePresence>
+            </AnimatePresence> */}
             <Card
               imageUrl={`${item.image}&size=l`}
+              // videoUrl={}
+              // cardId={item.anilist.id}
+              selectedCardInfo={selectedCard}
               header={
                 <div className="pb-4 flex items-baseline justify-between mx-2">
                   {/* <div className="text-xl">{apiTookTime}</div> */}
@@ -76,6 +98,7 @@ export const CardsWithHoverEffect = ({
                     </div>
                     <div className="text-sm pl-1 text-gray-400">percent similarity</div>
                   </div>
+                  {/* <AnimeInfoDialog selectedCardId={item.anilist.id} /> */}
                   {item.anilist.isAdult && (
                     <h2 className="text-purple-800 border-2 px-2 rounded-md">NSFW</h2>
                   )}
@@ -109,49 +132,57 @@ export const Card = ({
   className,
   children,
   imageUrl,
+  // videoUrl,
   header,
-}: {
+  selectedCardInfo,
+}: // cardId,
+{
   className?: string;
   children: React.ReactNode;
   header?: React.ReactNode;
   imageUrl?: string;
+  videoUrl?: string;
+  selectedCardInfo: { id: number | null; videoUrl?: string; episode: number | null };
+  // cardId: number;
 }) => {
-  // const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  // const handleImageLoad = () => {
-  //   setImageLoaded(true);
-  // };
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
 
   const handleImageError = () => {
     setImageError(true);
   };
 
   return (
-    <div
-      className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 cursor-pointer",
-        className
-      )}
-    >
-      <div className="relative z-50">
-        {header}
-        {imageError ? (
-          <Skeleton className="flex rounded-xl" />
-        ) : (
-          <>
-            <img
-              src={imageUrl}
-              alt="Card Image"
-              className="w-full h-auto rounded-lg"
-              // onLoad={handleImageLoad}
-              onError={handleImageError}
-            />
-            {/* {!imageLoaded && <Skeleton className="flex rounded-xl absolute inset-0" />} */}
-          </>
+    <AnimeInfoDialog selectedCardInfo={selectedCardInfo}>
+      <div
+        className={cn(
+          "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 cursor-pointer",
+          className
         )}
-        <div className="p-4">{children}</div>
+      >
+        <div className="relative z-50">
+          {header}
+          {imageError ? (
+            <Skeleton className="flex rounded-xl" />
+          ) : (
+            <>
+              <img
+                src={imageUrl}
+                alt="Card Image"
+                className="w-full h-auto rounded-lg"
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+              />
+              {!imageLoaded && <Skeleton className="flex rounded-xl absolute inset-0" />}
+            </>
+          )}
+          <div className="p-4">{children}</div>
+        </div>
       </div>
-    </div>
+    </AnimeInfoDialog>
   );
 };

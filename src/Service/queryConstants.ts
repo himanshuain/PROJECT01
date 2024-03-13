@@ -1,6 +1,6 @@
-export const anilistInfoQuery = `query ($ids: [Int]) {
+export const anilistInfoQuery = `query ($id: [Int]) {
             Page(page: 1, perPage: 50) {
-              media(id_in: $ids, type: ANIME) {
+              media(id_in: $id, type: ANIME) {
                 id
                 title {
                   native

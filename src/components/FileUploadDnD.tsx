@@ -24,13 +24,12 @@ const FileUpload = ({ handleFileChange }) => {
     >
       <input
         {...getInputProps()}
-        //   {
-        //   className: "hidden",
-        //   id: "media",
-        //   type: "file",
-        //   onChange: handleFileChange,
-        //   accept: "image/*,video/*,gif/*",
-        // }
+        // onChange={handleFileChange}
+        // className="hidden"
+        // type="file"
+        // accept="image/*"
+        // name="media"
+        // id="media"
       />
       <label htmlFor="media" className="cursor-pointer">
         {/* Add your uploader icon here if needed */}

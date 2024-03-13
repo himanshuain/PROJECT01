@@ -3,10 +3,25 @@
 import { CardsWithHoverEffect } from "@/components/ui/CardsWithHoverEffect";
 import { ImageInputContainer } from "./ImageInputContainer";
 import { useEffect, useMemo, useState, useRef } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
+import { SearchBar } from "./SearchBar";
+// import { AnimeInfoDialog } from "./AnimeInfoDialog";
 
+export function SkeletonCard() {
+  return (
+    <div className="flex flex-col space-x-3 mt-2">
+      <Skeleton className="h-[125px] w-[250px] rounded-xl mt-2" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 my-2 w-[250px]" />
+        <Skeleton className="h-4 my-2 w-[200px]" />
+      </div>
+    </div>
+  );
+}
 export function AnimeResults() {
   const [data, setData] = useState(null);
-  const [, setResultId] = useState(null);
+  // const [selectedCardId, setSelectedCardId] = useState(null);
   const [isMediaDataLoading, setIsMediaDataLoading] = useState(false);
   const [isLoadingUrlData, setIsUrlDataLoading] = useState(false);
   const isLoading = isMediaDataLoading || isLoadingUrlData;
@@ -18,10 +33,10 @@ export function AnimeResults() {
 
   // Scroll to the result section when data is available and there are no errors
   useEffect(() => {
-    if (resultRef.current && result.length > 0) {
+    if ((resultRef.current && result.length > 0) || isLoading) {
       resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [result]);
+  }, [result, isLoading]);
 
   // console.log("showing data", data);
   return (
@@ -54,34 +69,21 @@ export function AnimeResults() {
           ]}
         />
       )}
-      <div className="flex justify-center items-center h-full" ref={resultRef}>
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-10">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className={`w-full ${isLoading ? "opacity-50" : ""}`}>
-                <SkeletonCard />
-              </div>
-            ))}
-          </div>
-        ) : (
-          result && <CardsWithHoverEffect items={result} setResultId={setResultId} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-import { Skeleton } from "@/components/ui/skeleton";
-import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
-import { SearchBar } from "./SearchBar";
-
-export function SkeletonCard() {
-  return (
-    <div className="flex flex-col space-x-3 mt-2">
-      <Skeleton className="h-[125px] w-[250px] rounded-xl mt-2" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 my-2 w-[250px]" />
-        <Skeleton className="h-4 my-2 w-[200px]" />
+      <div className="flex flex-col">
+        {/* {selectedCardId && <AnimeInfoDialog selectedCardId={selectedCardId} />} */}
+        <div className="justify-center items-center h-full flex-wrap" ref={resultRef}>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-10">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className={`w-full ${isLoading ? "opacity-50" : ""}`}>
+                  <SkeletonCard />
+                </div>
+              ))}
+            </div>
+          ) : result.length > 0 ? (
+            <CardsWithHoverEffect items={result} />
+          ) : null}
+        </div>
       </div>
     </div>
   );

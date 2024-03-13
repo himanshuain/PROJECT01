@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import axios from "axios";
-import { getCinemaPosterUrl } from "./restUrls";
+import { anilistUrl, getCinemaPosterUrl } from "./restUrls";
 import { anilistInfoQuery } from "./queryConstants";
 import { useQuery } from "react-query";
 
@@ -42,7 +42,7 @@ export const fetchCinemaData = async ({ pageParam, searchInput = "Game of throne
 };
 
 // Set up the request configuration
-export const graphqlQueryOptions = (ids: number[]) => {
+const graphqlQueryOptions = (id: number) => {
   return {
     method: "POST",
     headers: {
@@ -51,10 +51,29 @@ export const graphqlQueryOptions = (ids: number[]) => {
     },
     body: JSON.stringify({
       query: anilistInfoQuery,
-      variables: { ids: ids },
+      variables: { id: id },
     }),
   };
 };
+
+const animeInfo = async (id: number | null) => {
+  if (!id) return null;
+  const options = graphqlQueryOptions(id);
+  try {
+    const response = await fetch(anilistUrl, options);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const useAnimeInfo = (id: number | null) =>
+  useQuery(["animeInfo", id], () => animeInfo(id), {
+    enabled: false,
+    retry: false,
+    cacheTime: 60 * 1000,
+  });
 
 export const getApiQuota = async () => {
   await fetch("https://api.trace.moe/me");
@@ -134,7 +153,7 @@ const extractAnimeUsingMediaUpload = async file => {
   }
 };
 
-export const useExtractAnimeUsingMediaUploadQuery = (file: File) =>
+export const useExtractAnimeUsingMediaUploadQuery = (file: File | null) =>
   useQuery(["extractAnimeUsingMediaUpload", file], () => extractAnimeUsingMediaUpload(file), {
     cacheTime: 60 * 1000 * 4.5, // Keeping the cache for 4.5 minutes as after this, urls expire
     enabled: false,

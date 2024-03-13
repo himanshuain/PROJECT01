@@ -1,5 +1,5 @@
 import { useAnimeInfo } from "@/Service/queries";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loader } from "./Loader";
 import ReactPlayer from "react-player/lazy";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
@@ -26,6 +26,7 @@ export function AnimeInfoDialog({
     selectedCardInfo?.id && refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCardInfo?.id]);
+  // console.log(selectedCardInfo);
 
   const linkColors = {
     Twitter: "text-blue-500",
@@ -116,7 +117,8 @@ export function AnimeInfoDialog({
                 <Separator className="mb-1" />
                 <h2 className="text-sm">
                   This Anime has
-                  <span className="font-bold text-blue-400"> {animeInfo?.episodes}</span> episodes.
+                  <span className="font-bold text-blue-400"> {animeInfo?.episodes}</span>{" "}
+                  episode(s).
                 </h2>
                 <p className="text-sm text-muted-foreground">
                   Anime released on: {animeInfo?.startDate.year}-{animeInfo?.startDate.month}-
@@ -159,7 +161,10 @@ export function AnimeInfoDialog({
 }
 
 const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
-  return (
+  const [error, setError] = useState(false);
+  return error ? (
+    <p className="text-sm text-muted-foreground">Clip for the scene is not available.</p>
+  ) : (
     <div
       style={{
         width: "100%",
@@ -169,7 +174,18 @@ const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
         overflow: "hidden",
       }}
     >
-      <ReactPlayer loop muted playing controls url={videoUrl} width="100%" height="auto" />
+      <ReactPlayer
+        onError={() => {
+          setError(true);
+        }}
+        loop
+        muted
+        playing
+        controls
+        url={videoUrl}
+        width="100%"
+        height="auto"
+      />
     </div>
   );
 };

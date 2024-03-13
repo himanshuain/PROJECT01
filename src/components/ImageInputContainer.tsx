@@ -76,7 +76,7 @@ export function ImageInputContainer({
   }, [isLoadingMediaUploadData, setIsLoading]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center justify-center">
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <FileUpload handleFileChange={handleFileChange} />
         {fileFormatError && (
@@ -90,7 +90,7 @@ export function ImageInputContainer({
             src={imageUrl}
             alt="Wallpaper"
             key="imageUrl"
-            className="my-4 object-cover rounded-xl self-center"
+            className="my-4 object-cover rounded-xl"
           />
         )}
       </div>

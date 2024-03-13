@@ -6,22 +6,8 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 import { SearchBar } from "./SearchBar";
-// import { AnimeInfoDialog } from "./AnimeInfoDialog";
-
-export function SkeletonCard() {
-  return (
-    <div className="flex flex-col space-x-3 mt-2">
-      <Skeleton className="h-[125px] w-[250px] rounded-xl mt-2" />
-      <div className="space-y-2">
-        <Skeleton className="h-6 my-2 w-[220px]" />
-        <Skeleton className="h-4 my-2 w-[200px]" />
-      </div>
-    </div>
-  );
-}
 export function AnimeResults() {
   const [data, setData] = useState(null);
-  // const [selectedCardId, setSelectedCardId] = useState(null);
   const [isMediaDataLoading, setIsMediaDataLoading] = useState(false);
   const [isLoadingUrlData, setIsUrlDataLoading] = useState(false);
   const isLoading = isMediaDataLoading || isLoadingUrlData;
@@ -84,6 +70,18 @@ export function AnimeResults() {
             <CardsWithHoverEffect items={result} />
           ) : null}
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function SkeletonCard() {
+  return (
+    <div className="flex flex-col space-x-3 mt-2">
+      <Skeleton className="h-[125px] w-[250px] rounded-xl mt-2" />
+      <div className="space-y-2">
+        <Skeleton className="h-6 my-2 w-[220px]" />
+        <Skeleton className="h-4 my-2 w-[200px]" />
       </div>
     </div>
   );

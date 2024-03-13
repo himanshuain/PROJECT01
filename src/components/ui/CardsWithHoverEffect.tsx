@@ -7,10 +7,8 @@ import { AnimeInfoDialog } from "../AnimeInfoDialog";
 
 export const CardsWithHoverEffect = ({
   items,
-  // apiTookTime,
   className,
-}: // setSelectedCardId,
-{
+}: {
   items: {
     anilist: {
       id: number;
@@ -25,27 +23,24 @@ export const CardsWithHoverEffect = ({
     image: string;
     similarity: number;
     video: string;
-    // description: string;
-    // link: string;
-    // imageUrl?: string; // New property for image URL
   }[];
   className?: string;
-  // apiTookTime?: number;
-  // setSelectedCardId: (id: number | null) => void;
 }) => {
   // const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedCard, setSelectedCard] = useState<{
     id: number | null;
     videoUrl?: string;
     episode: number | null;
+    idx: number | null;
   }>({
     id: null,
     videoUrl: "",
     episode: null,
+    idx: null,
   });
 
   return (
-    <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10", className)}>
+    <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-4", className)}>
       {items &&
         items.map((item, idx) => (
           <span
@@ -56,11 +51,12 @@ export const CardsWithHoverEffect = ({
                 id: item.anilist.id,
                 videoUrl: `${item.video}&size=l`,
                 episode: item.episode,
+                idx: idx,
               });
               // console.log(item.anilist.id);
             }}
             key={`${item.anilist.id}-${idx}`}
-            className="relative group block p-2 h-full w-full"
+            className="relative group block m-2 h-full w-full"
             // onMouseEnter={() => setHoveredIndex(idx)}
             // onMouseLeave={() => setHoveredIndex(null)}
           >
@@ -83,22 +79,16 @@ export const CardsWithHoverEffect = ({
             </AnimatePresence> */}
             <Card
               imageUrl={`${item.image}&size=l`}
-              // videoUrl={}
-              // cardId={item.anilist.id}
+              cardIdx={idx}
               selectedCardInfo={selectedCard}
               header={
                 <div className="pb-4 flex items-baseline justify-between mx-2">
-                  {/* <div className="text-xl">{apiTookTime}</div> */}
-                  {/* <div className="w-12 h-12 flex items-center justify-center rounded-full border-4 border-green-600 bg-black text-white text-md">
-                    {Math.round(item.similarity * 1000) / 10}
-                  </div> */}
                   <div className="flex items-center">
                     <div className="w-9 h-9 flex items-center justify-center rounded-full border-2 border-green-600 bg-black text-white text-xs">
                       {Math.round(item.similarity * 1000) / 10}
                     </div>
                     <div className="text-sm pl-1 text-gray-400">percent similarity</div>
                   </div>
-                  {/* <AnimeInfoDialog selectedCardId={item.anilist.id} /> */}
                   {item.anilist.isAdult && (
                     <h2 className="text-purple-800 border-2 px-2 rounded-md">NSFW</h2>
                   )}
@@ -120,7 +110,6 @@ export const CardsWithHoverEffect = ({
                   Native : {item.anilist.title.native}
                 </h2>
               </div>
-              {/* <CardDescription>{item.description}</CardDescription> */}
             </Card>
           </span>
         ))}
@@ -132,18 +121,22 @@ export const Card = ({
   className,
   children,
   imageUrl,
-  // videoUrl,
   header,
   selectedCardInfo,
-}: // cardId,
-{
+  cardIdx,
+}: {
   className?: string;
   children: React.ReactNode;
   header?: React.ReactNode;
   imageUrl?: string;
   videoUrl?: string;
-  selectedCardInfo: { id: number | null; videoUrl?: string; episode: number | null };
-  // cardId: number;
+  selectedCardInfo: {
+    id: number | null;
+    videoUrl?: string;
+    episode: number | null;
+    idx: number | null;
+  };
+  cardIdx: number;
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -155,15 +148,13 @@ export const Card = ({
   const handleImageError = () => {
     setImageError(true);
   };
-
+  const cardClasses =
+    cardIdx === selectedCardInfo.idx
+      ? "rounded-2xl h-full w-full p-4 overflow-hidden bg-black group-hover:border-slate-700 relative z-20 cursor-pointer border-green-700 border-2"
+      : "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 cursor-pointer ";
   return (
     <AnimeInfoDialog selectedCardInfo={selectedCardInfo}>
-      <div
-        className={cn(
-          "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 cursor-pointer",
-          className
-        )}
-      >
+      <div className={cn(cardClasses, className)}>
         <div className="relative z-50">
           {header}
           {imageError ? (

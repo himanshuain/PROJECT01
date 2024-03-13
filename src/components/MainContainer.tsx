@@ -29,8 +29,14 @@ const Sparkles = lazy(() => import("./TopLanding"));
 export function MainContainer(): JSX.Element {
   return (
     <ScrollArea className="rounded-md border max-h-full h-screen overflow-y-auto dark:bg-black">
-      <div className="flex-1 overflow-y-auto ">
-        <Suspense fallback={<Loader />}>
+      <div className="flex-1 overflow-y-auto">
+        <Suspense
+          fallback={
+            <div className="flex p-8 justify-center items-center">
+              <Loader />
+            </div>
+          }
+        >
           <Sparkles />
         </Suspense>
         <div className="flex flex-col items-center justify-center my-10 mx-4">

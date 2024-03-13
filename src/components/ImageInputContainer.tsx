@@ -90,7 +90,7 @@ export function ImageInputContainer({
             src={imageUrl}
             alt="Wallpaper"
             key="imageUrl"
-            className="max-w-sm max-h-72 my-4 object-cover rounded-xl self-center"
+            className="my-4 object-cover rounded-xl self-center"
           />
         )}
       </div>

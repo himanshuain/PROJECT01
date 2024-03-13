@@ -78,7 +78,7 @@ export function AnimeInfoDialog({
               </div>
             </DialogHeader>
 
-            <ScrollArea className="overflow-y-auto bg-black rounded-2xl py-3 px-4">
+            <ScrollArea className="overflow-y-auto bg-black rounded-xl py-2 px-4">
               <div className="flex flex-col gap-2 mb-4">
                 <h4 className="scroll-m-20 text-xl font-semibold tracking-tight ">
                   {animeInfo?.title?.english ||
@@ -129,7 +129,7 @@ export function AnimeInfoDialog({
                 <p className="text-xs text-muted-foreground">Current status: {animeInfo?.status}</p>
               </div>
               {animeInfo?.externalLinks.length > 0 && (
-                <div className="py-2 items-end">
+                <div className="py-2 mx-2 items-end">
                   <p className="text-3xl text-orange-300">Links</p>
                   <Separator className="my-2" />
                   <ul>

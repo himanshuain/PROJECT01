@@ -40,13 +40,13 @@ export function MainContainer(): JSX.Element {
           <Sparkles />
         </Suspense>
         <div className="flex flex-col items-center justify-center my-10 mx-4">
-          <h2 className="scroll-m-20 pb-2 md:text-xl lg:text-3xl font-semibold tracking-tight first:mt-0">
+          <h2 className="scroll-m-20 pb-2 text-sm md:text-xl lg:text-3xl font-semibold tracking-tight first:mt-0">
             Your Anime Awaits! Search for anime with Image-Extraction!
           </h2>
           <p className="text-md text-muted-foreground">Use a screenshot, image, or GIF.</p>
         </div>
         <AnimeResults />
-        <h2 className="text-accent py-2 px-4 bottom-0 text-sm absolute">
+        <h2 className="text-accent py-2 px-4 text-sm ">
           <span className="text-yellow-700 ">Info note: </span>Sometimes results may not be correct.
           And It may show results even if provided image or url doen't contain any anime content.
         </h2>

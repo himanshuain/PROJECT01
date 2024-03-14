@@ -46,7 +46,7 @@ export function MainContainer(): JSX.Element {
           <p className="text-md text-muted-foreground">Use a screenshot, image, or GIF.</p>
         </div>
         <AnimeResults />
-        <h2 className="text-accent py-2 px-4 text-sm ">
+        <h2 className="text-accent py-2 px-4 text-sm">
           <span className="text-yellow-700 ">Info note: </span>Sometimes results may not be correct.
           And It may show results even if provided image or url doen't contain any anime content.
         </h2>

@@ -41,7 +41,7 @@ export function MainContainer(): JSX.Element {
         </Suspense>
         <div className="flex flex-col items-center justify-center my-10 mx-4">
           <h2 className="scroll-m-20 pb-2 text-sm md:text-xl lg:text-3xl font-semibold tracking-tight first:mt-0">
-            Your Anime Awaits! Search for anime with Image-Extraction!
+            Image-Extraction Search engine for anime!
           </h2>
           <p className="text-md text-muted-foreground">Use a screenshot, image, or GIF.</p>
         </div>

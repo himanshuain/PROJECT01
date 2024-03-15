@@ -32,7 +32,7 @@ export function MainContainer(): JSX.Element {
       <div className="flex-1 overflow-y-auto">
         <Suspense
           fallback={
-            <div className="flex p-8 justify-center items-center">
+            <div className="flex p-8 h-[30rem] justify-center items-center">
               <Loader />
             </div>
           }

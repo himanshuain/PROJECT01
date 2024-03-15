@@ -48,7 +48,7 @@ const FileUpload = ({ handleFileChange }) => {
           ></path>
         </svg>
         <p className="text-lg font-semibold text-gray-700 mb-4">
-          Drag and drop files here or click to browse.
+          Drag and drop an Image here or click to browse.
         </p>
       </label>
       {/* <ul className="list-disc text-left">

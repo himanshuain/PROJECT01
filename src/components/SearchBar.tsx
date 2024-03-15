@@ -64,7 +64,7 @@ export const SearchBar = ({ setData, setIsLoading }: SearchBarProps) => {
       <div className="sticky top-0 z-10 py-4 px-4 flex items-center space-x-2 shadow rounded-lg">
         <Input
           type="text"
-          placeholder="Search"
+          placeholder="Enter an image url"
           value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
         />

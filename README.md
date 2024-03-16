@@ -11,3 +11,6 @@ Removed some existing files and installed some pakages.
 Setup tailwind css, followed the steps mentioned in the docs. Dont forget to add `import "./index.css";` in `App.tsx` or `main.tsx` file.
 
 Setup React query.
+
+
+--- I'll update the ReadME soon and explain a few things with flow diagrams, Thanks. ---

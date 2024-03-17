@@ -37,6 +37,36 @@ export function AnimeInfoDialog({
     Netflix: "text-red-500",
     Instagram: "text-pink-500",
   };
+  const HeaderDiv = (
+    <DialogHeader className="flex-col min-w-[520px]">
+      {selectedCardInfo?.videoUrl && <VideoPlayer videoUrl={selectedCardInfo?.videoUrl} />}
+      {selectedCardInfo?.episode && (
+        <Label className="py-4">
+          Searched scene is from {selectedCardInfo?.episode || null}th episode.
+        </Label>
+      )}
+
+      <div className="flex gap-2 flex-col pb-4">
+        <div className="flex gap-2 py-4 flex-wrap">
+          {animeInfo?.isAdult && <h2 className="text-purple-800 border-2 px-2 rounded-md">NSFW</h2>}
+          {animeInfo?.genres &&
+            animeInfo?.genres?.map((genre: string) => (
+              <h2 key={genre} className="text-rose-600 border-2 px-2 rounded-md">
+                {genre}
+              </h2>
+            ))}
+        </div>
+        <a
+          href={animeInfo?.siteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-orange-400 self-start text-md border-2 px-2 rounded-md"
+        >
+          Check on anilist.co
+        </a>
+      </div>
+    </DialogHeader>
+  );
 
   return (
     <Dialog>
@@ -48,70 +78,10 @@ export function AnimeInfoDialog({
           </div>
         ) : (
           <>
-            <DialogHeader className="flex-col hidden md:block">
-              {selectedCardInfo?.videoUrl && <VideoPlayer videoUrl={selectedCardInfo?.videoUrl} />}
-              {selectedCardInfo?.episode && (
-                <Label className="py-4">
-                  Searched scene is from {selectedCardInfo?.episode || null}th episode.
-                </Label>
-              )}
+            <div className="hidden md:block">{HeaderDiv}</div>
 
-              <div className="flex gap-2 flex-col pb-4">
-                <div className="flex gap-2 py-4 flex-wrap">
-                  {animeInfo?.isAdult && (
-                    <h2 className="text-purple-800 border-2 px-2 rounded-md">NSFW</h2>
-                  )}
-                  {animeInfo?.genres &&
-                    animeInfo?.genres?.map((genre: string) => (
-                      <h2 key={genre} className="text-rose-600 border-2 px-2 rounded-md">
-                        {genre}
-                      </h2>
-                    ))}
-                </div>
-                <a
-                  href={animeInfo?.siteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-orange-400 self-start text-md border-2 px-2 rounded-md"
-                >
-                  Check on Anilist.co
-                </a>
-              </div>
-            </DialogHeader>
-
-            <ScrollArea className="overflow-y-auto bg-black rounded-xl py-2 px-4">
-              <DialogHeader className="flex-col block md:hidden">
-                {selectedCardInfo?.videoUrl && (
-                  <VideoPlayer videoUrl={selectedCardInfo?.videoUrl} />
-                )}
-                {selectedCardInfo?.episode && (
-                  <Label className="py-4">
-                    Searched scene is from {selectedCardInfo?.episode || null}th episode.
-                  </Label>
-                )}
-
-                <div className="flex gap-2 flex-col pb-4">
-                  <div className="flex gap-2 py-4 flex-wrap">
-                    {animeInfo?.isAdult && (
-                      <h2 className="text-purple-800 border-2 px-2 rounded-md">NSFW</h2>
-                    )}
-                    {animeInfo?.genres &&
-                      animeInfo?.genres?.map((genre: string) => (
-                        <h2 key={genre} className="text-rose-600 border-2 px-2 rounded-md">
-                          {genre}
-                        </h2>
-                      ))}
-                  </div>
-                  <a
-                    href={animeInfo?.siteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-orange-400 self-start text-md border-2 px-2 rounded-md"
-                  >
-                    Check on Anilist.co
-                  </a>
-                </div>
-              </DialogHeader>
+            <ScrollArea className="overflow-y-auto bg-black rounded-xl py-2 px-4 min-w-[25rem]">
+              <div className="block md:hidden">{HeaderDiv}</div>
               <div className="flex flex-col gap-2 mb-4">
                 <h4 className="scroll-m-20 text-xl font-semibold tracking-tight ">
                   {animeInfo?.title?.english ||

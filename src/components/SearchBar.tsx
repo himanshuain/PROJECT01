@@ -29,9 +29,17 @@ export const SearchBar = ({ setData, setIsLoading }: SearchBarProps) => {
     data: dataUsingUrl,
   } = useExtractAnimeUsingUrlQuery(searchInput);
 
+  const validateUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
   const handleSearch = () => {
     setSearchClicked(true);
-    setLoading(true);
+    validateUrl(searchInput) && setLoading(true);
     fetchAnimeUsingUrl();
   };
 

@@ -1,46 +1,44 @@
+type isAdult = boolean;
+type animeTitle = {
+  romaji: string;
+  english: string;
+  native: string;
+};
+type url = string;
+type id = number;
+type dateType = {
+  year: number;
+  month: number;
+  day: number;
+};
+
 export type data = {
   anilist: {
-    id: number;
-    isAdult: boolean;
-    title: {
-      romaji: string;
-      native: string;
-      english: string;
-    };
-    image: string;
+    id: id;
+    isAdult: isAdult;
+    title: animeTitle;
+    image: url;
     similarity: number;
-    video: string;
+    video: url;
   };
 }[];
 
 export type graphQLAnimeInfoProps = {
-  isAdult: boolean;
-  title: {
-    romaji: string;
-    english: string;
-    native: string;
-  };
-  bannerImage: string;
+  isAdult: isAdult;
+  title: animeTitle;
+  bannerImage: url;
   coverImage: {
-    large: string;
+    large: url;
   };
-  startDate: {
-    year: number;
-    month: number;
-    day: number;
-  };
-  endDate: {
-    year: number;
-    month: number;
-    day: number;
-  };
+  startDate: dateType;
+  endDate: dateType;
   episodes: number;
   status: string;
   externalLinks: {
-    url: string;
-    site: string;
-    id: number;
+    url: url;
+    site: url;
+    id: id;
   }[];
   genres: string[];
-  siteUrl: string;
+  siteUrl: url;
 };

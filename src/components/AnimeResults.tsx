@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { CardsWithHoverEffect } from "@/components/ui/CardsWithHoverEffect";
 import { ImageInputContainer } from "./ImageInputContainer";
@@ -6,8 +6,13 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 import { SearchBar } from "./SearchBar";
+import { data } from "@/InterfaceTypes";
 export function AnimeResults() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({
+    frameCount: null as number | null,
+    result: [] as data[],
+    apiTookTime: undefined as number | undefined,
+  });
   const [isMediaDataLoading, setIsMediaDataLoading] = useState(false);
   const [isLoadingUrlData, setIsUrlDataLoading] = useState(false);
   const isLoading = isMediaDataLoading || isLoadingUrlData;
@@ -20,7 +25,7 @@ export function AnimeResults() {
   // Scroll to the result section when data is available and there are no errors
   useEffect(() => {
     if ((resultRef.current && result.length > 0) || isLoading) {
-      resultRef.current.scrollIntoView({ behavior: "smooth" });
+      resultRef?.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [result, isLoading]);
 

@@ -38,8 +38,8 @@ export function MainContainer(): JSX.Element {
         </div>
         <AnimeResults />
         <h2 className="text-accent py-2 px-4 text-sm">
-          <span className="text-yellow-700 ">Info note: </span>Sometimes results may not be correct.
-          And It may show results even if provided image or url doen't contain any anime content.
+          <span className="text-yellow-700">Info : </span>Sometimes results may not be correct. And
+          It may show results even if provided image or url doen't contain any anime content.
         </h2>
       </div>
     </ScrollArea>

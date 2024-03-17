@@ -9,7 +9,7 @@ export default function Sparkles() {
         Anime Lookout
       </h1> */}
       <div className="text-3xl md:text-5xl lg:text-7xl font-bold text-center relative z-20 bg-gradient-to-r from-blue-500 via-red-300 to-purple-500 text-transparent bg-clip-text ">
-        Scanimè
+        Scanime
       </div>
 
       <div className="w-full max-w-[40rem] h-40 relative mx-auto">

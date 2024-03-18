@@ -1,43 +1,18 @@
 import { cn } from "@/lib/utils";
 // import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import { Skeleton } from "./skeleton";
-import { AnimeInfoDialog } from "../AnimeInfoDialog";
-// import { CardTitle } from "@/components/ui/card";
+import { Skeleton } from "./ui/skeleton";
+import { AnimeInfoDialog } from "./AnimeInfoDialog";
+import { Result } from "@/InterfaceTypes";
 
 export const CardsWithHoverEffect = ({
   items,
   className,
 }: {
-  items: {
-    anilist: {
-      id: number;
-      isAdult: boolean;
-      title: {
-        romaji: string;
-        native: string;
-        english: string;
-      };
-    };
-    episode: number | null;
-    image: string;
-    similarity: number;
-    video: string;
-  }[];
+  items: Result[];
   className?: string;
 }) => {
   // const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [selectedCard, setSelectedCard] = useState<{
-    id: number | null;
-    videoUrl?: string;
-    episode: number | null;
-    idx: number | null;
-  }>({
-    id: null,
-    videoUrl: "",
-    episode: null,
-    idx: null,
-  });
 
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-4", className)}>
@@ -45,16 +20,6 @@ export const CardsWithHoverEffect = ({
         items.map((item, idx) => (
           <span
             // href={item.link}
-            onClick={() => {
-              // setSelectedCardId(item.anilist.id);
-              setSelectedCard({
-                id: item.anilist.id,
-                videoUrl: `${item.video}&size=l`,
-                episode: item.episode,
-                idx: idx,
-              });
-              // console.log(item.anilist.id);
-            }}
             key={`${item.anilist.id}-${idx}`}
             className="relative group block m-2 h-full w-full"
             // onMouseEnter={() => setHoveredIndex(idx)}
@@ -80,7 +45,7 @@ export const CardsWithHoverEffect = ({
             <Card
               imageUrl={`${item.image}&size=l`}
               cardIdx={idx}
-              selectedCardInfo={selectedCard}
+              selectedCardInfo={item}
               header={
                 <div className="pb-4 flex items-baseline justify-between mx-2">
                   <div className="flex items-center">
@@ -123,19 +88,13 @@ export const Card = ({
   imageUrl,
   header,
   selectedCardInfo,
-  cardIdx,
 }: {
   className?: string;
   children: React.ReactNode;
   header?: React.ReactNode;
   imageUrl?: string;
   videoUrl?: string;
-  selectedCardInfo: {
-    id: number | null;
-    videoUrl?: string;
-    episode: number | null;
-    idx: number | null;
-  };
+  selectedCardInfo: Result;
   cardIdx: number;
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -149,13 +108,14 @@ export const Card = ({
     setImageError(true);
   };
   const cardClasses =
-    cardIdx === selectedCardInfo.idx
-      ? "rounded-2xl h-full w-full p-4 overflow-hidden bg-black group-hover:border-slate-700 relative z-20 cursor-pointer border-green-700 border-2"
-      : "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 cursor-pointer ";
+    // cardIdx === info.anilist.id
+    // ? "rounded-2xl h-full w-full p-4 overflow-hidden bg-black group-hover:border-slate-700 relative z-20 cursor-pointer border-green-700 border-2"
+    // :
+    "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 cursor-pointer ";
   return (
     <AnimeInfoDialog selectedCardInfo={selectedCardInfo}>
       <div className={cn(cardClasses, className)}>
-        <div className="relative z-50">
+        <div className="relative z-50 py-2">
           {header}
           {imageError ? (
             <Skeleton className="flex rounded-xl" />

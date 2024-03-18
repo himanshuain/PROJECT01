@@ -6,14 +6,10 @@ import { Search as SearchIcon } from "lucide-react";
 import { useExtractAnimeUsingUrlQuery } from "@/Service/queries";
 import { Loader } from "./Loader";
 import { filterDataByUniqueIds } from "@/lib/utils";
-import { data } from "@/InterfaceTypes";
+import { Data } from "@/InterfaceTypes";
 
 interface SearchBarProps {
-  setData: (data: {
-    result: data;
-    frameCount: number | null;
-    apiTookTime: number | undefined;
-  }) => void;
+  setData: (data: Data) => void;
   setIsLoading: (isLoading: boolean) => void;
 }
 
@@ -46,17 +42,15 @@ export const SearchBar = ({ setData, setIsLoading }: SearchBarProps) => {
   useEffect(() => {
     if (dataUsingUrl && !dataUsingUrl?.error) {
       const filteredData = R.pipe(
-        // R.prop(0),
         filterDataByUniqueIds("anilist"),
         R.take(6)
       )(dataUsingUrl?.data?.result);
 
       setData({
-        result: filteredData as data,
-        // result: dataUsingUrl?.data?.result,
+        result: filteredData,
         frameCount: dataUsingUrl?.data?.frameCount,
         apiTookTime: dataUsingUrl?.tookTime,
-      });
+      } as Data);
       setImageUrl(searchInput);
     }
     setLoading(false);

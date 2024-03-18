@@ -3,17 +3,13 @@ import * as R from "ramda";
 import { useExtractAnimeUsingMediaUploadQuery } from "@/Service/queries";
 import FileUpload from "./FileUploadDnD";
 import { filterDataByUniqueIds } from "@/lib/utils";
-import { data } from "@/InterfaceTypes";
+import { Data } from "@/InterfaceTypes";
 
 export function ImageInputContainer({
   setData,
   setIsLoading,
 }: {
-  setData: (data: {
-    result: data;
-    frameCount: number | null;
-    apiTookTime: number | undefined;
-  }) => void;
+  setData: (data: Data) => void;
   setIsLoading: (value: boolean) => void;
 }) {
   const [file, setFile] = useState<File | null>(null);
@@ -64,10 +60,10 @@ export function ImageInputContainer({
       const { data } = dataUsingMediaUpload;
       const filteredData = R.pipe(filterDataByUniqueIds("anilist"), R.take(6))(data?.data?.result);
       setData({
-        result: filteredData as data,
+        result: filteredData,
         frameCount: dataUsingMediaUpload?.data?.data?.frameCount,
         apiTookTime: dataUsingMediaUpload.tookTime,
-      });
+      } as Data);
     }
   }, [dataUsingMediaUpload, isDataLoaded, setData, isLoadingMediaUploadData]);
 

@@ -1,32 +1,22 @@
 import { useAnimeInfo } from "@/Service/queries";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Loader } from "./Loader";
 import ReactPlayer from "react-player/lazy";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
-import { graphQLAnimeInfoProps } from "@/InterfaceTypes";
+import { Result, graphQLAnimeInfoProps } from "@/InterfaceTypes";
 
 export function AnimeInfoDialog({
-  selectedCardInfo,
   children,
+  selectedCardInfo,
 }: {
-  selectedCardInfo: {
-    id: number | null;
-    videoUrl?: string | undefined;
-    episode: number | null;
-  };
+  selectedCardInfo: Result;
   children: React.ReactNode;
 }) {
-  const { refetch, isLoading, data } = useAnimeInfo(selectedCardInfo?.id);
+  const { refetch, isLoading, data } = useAnimeInfo(selectedCardInfo?.anilist.id);
   const animeInfo: graphQLAnimeInfoProps = data?.data?.Page?.media[0];
-
-  useEffect(() => {
-    selectedCardInfo?.id && refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCardInfo?.id]);
-  // console.log(selectedCardInfo);
 
   const linkColors = {
     Twitter: "text-blue-500",
@@ -38,8 +28,8 @@ export function AnimeInfoDialog({
     Instagram: "text-pink-500",
   };
   const HeaderDiv = (
-    <DialogHeader className="flex-col min-w-[520px]">
-      {selectedCardInfo?.videoUrl && <VideoPlayer videoUrl={selectedCardInfo?.videoUrl} />}
+    <DialogHeader className="flex-col">
+      {selectedCardInfo?.video && <VideoPlayer videoUrl={`${selectedCardInfo.video}&size=l`} />}
       {selectedCardInfo?.episode && (
         <Label className="py-4">
           Searched scene is from {selectedCardInfo?.episode || null}th episode.
@@ -70,7 +60,9 @@ export function AnimeInfoDialog({
 
   return (
     <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger onClick={() => refetch()} asChild>
+        {children}
+      </DialogTrigger>
       <DialogContent className="flex justify-around pt-10 m-0 max-w-5xl h-[40rem] rounded-lg bg-slate-950">
         {isLoading ? (
           <div className="flex items-center justify-center">

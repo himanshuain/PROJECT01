@@ -1,18 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { CardsWithHoverEffect } from "@/components/ui/CardsWithHoverEffect";
+import { CardsWithHoverEffect } from "@/components/CardsWithHoverEffect";
 import { ImageInputContainer } from "./ImageInputContainer";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 import { SearchBar } from "./SearchBar";
-import { data } from "@/InterfaceTypes";
+import { Data, Result } from "@/InterfaceTypes";
 export function AnimeResults() {
-  const [data, setData] = useState({
-    frameCount: null as number | null,
-    result: [] as data[],
-    apiTookTime: undefined as number | undefined,
-  });
+  const [data, setData] = useState({} as Data);
   const [isMediaDataLoading, setIsMediaDataLoading] = useState(false);
   const [isLoadingUrlData, setIsUrlDataLoading] = useState(false);
   const isLoading = isMediaDataLoading || isLoadingUrlData;
@@ -61,7 +55,6 @@ export function AnimeResults() {
         />
       )}
       <div className="flex flex-col">
-        {/* {selectedCardId && <AnimeInfoDialog selectedCardId={selectedCardId} />} */}
         <div className="flex justify-center items-center h-full flex-wrap" ref={resultRef}>
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-10">
@@ -72,7 +65,7 @@ export function AnimeResults() {
               ))}
             </div>
           ) : result.length > 0 ? (
-            <CardsWithHoverEffect items={result} />
+            <CardsWithHoverEffect items={result as Result[]} />
           ) : null}
         </div>
       </div>

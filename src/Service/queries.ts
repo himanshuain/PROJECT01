@@ -2,44 +2,9 @@
 // @ts-nocheck
 
 import axios from "axios";
-import { anilistUrl, getCinemaPosterUrl } from "./restUrls";
+import { anilistUrl } from "./restUrls";
 import { anilistInfoQuery } from "./queryConstants";
 import { useQuery } from "react-query";
-
-const cache = {};
-export const fetchCinemaData = async ({ pageParam, searchInput = "Game of thrones" }) => {
-  const pageNum = pageParam.toString();
-  if (cache[pageNum]) {
-    return cache[pageNum];
-  }
-
-  const options = {
-    method: "GET",
-    url: getCinemaPosterUrl,
-    params: {
-      title: searchInput,
-      limit: "10",
-      paginationKey: pageNum,
-      sortArg: "moviemeter,asc",
-    },
-    headers: {
-      "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
-      "X-RapidAPI-Host": "imdb8.p.rapidapi.com",
-    },
-  };
-
-  try {
-    const response = await axios.request(options);
-
-    // Store the fetched data in the cache
-    cache[pageNum] = response.data;
-
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
 
 // Set up the request configuration
 const graphqlQueryOptions = (id: number) => {
@@ -112,13 +77,13 @@ export const useExtractAnimeUsingUrlQuery = (imageUrl: string) =>
 
 const extractAnimeUsingMediaUpload = async file => {
   if (!file) {
-    console.error("No file selected.");
+    // console.error("No file selected.");
     return;
   }
 
   // Check if file size is under 25MB
   if (file.size > 25 * 1024 * 1024) {
-    console.error("File size exceeds 25MB limit.");
+    // console.error("File size exceeds 25MB limit.");
     return;
   }
 
@@ -139,7 +104,7 @@ const extractAnimeUsingMediaUpload = async file => {
     // const data = await JSON.parse(response);
     const apiFinishTime = new Date();
     const apiTookTime = apiFinishTime - apiStartTime;
-    console.log("API took", apiTookTime / 1000, "seconds");
+    // console.log("API took", apiTookTime / 1000, "seconds");
     // console.log(response); // Handle response data here
     return {
       data: response,

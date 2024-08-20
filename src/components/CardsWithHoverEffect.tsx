@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
-// import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
-import { Skeleton } from "./ui/skeleton";
+import React from "react";
+// import { Skeleton } from "./ui/skeleton";
 import { AnimeInfoDialog } from "./AnimeInfoDialog";
 import { Result } from "@/InterfaceTypes";
 
@@ -43,8 +42,8 @@ export const CardsWithHoverEffect = ({
               )}
             </AnimatePresence> */}
             <Card
-              imageUrl={`${item.image}&size=l`}
-              cardIdx={idx}
+              // imageUrl={`${item.image}&size=l`}
+              // cardIdx={idx}
               selectedCardInfo={item}
               header={
                 <div className="pb-4 flex items-baseline justify-between mx-2">
@@ -54,6 +53,9 @@ export const CardsWithHoverEffect = ({
                     </div>
                     <div className="text-sm pl-1 text-gray-400">percent similarity</div>
                   </div>
+                  {idx === 0 && (
+                    <h2 className="text-yellow-600 border-2  rounded-md px-2 text-xs">Top Match</h2>
+                  )}
                   {item.anilist.isAdult && (
                     <h2 className="text-purple-800 border-2 px-2 rounded-md">NSFW</h2>
                   )}
@@ -61,7 +63,7 @@ export const CardsWithHoverEffect = ({
               }
             >
               <div className="flex flex-col gap-2">
-                <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                <h4 className="scroll-m-20 text-xl font-semibold text-nowrap">
                   {item.anilist.title.english ||
                     item.anilist.title.romaji ||
                     item.anilist.title.native}
@@ -85,39 +87,35 @@ export const CardsWithHoverEffect = ({
 export const Card = ({
   className,
   children,
-  imageUrl,
+  // imageUrl,
   header,
   selectedCardInfo,
 }: {
   className?: string;
   children: React.ReactNode;
   header?: React.ReactNode;
-  imageUrl?: string;
+  // imageUrl?: string;
   videoUrl?: string;
   selectedCardInfo: Result;
-  cardIdx: number;
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  // const [imageLoaded, setImageLoaded] = useState(false);
+  // const [imageError, setImageError] = useState(false);
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+  // const handleImageLoad = () => {
+  //   setImageLoaded(true);
+  // };
 
-  const handleImageError = () => {
-    setImageError(true);
-  };
+  // const handleImageError = () => {
+  //   setImageError(true);
+  // };
   const cardClasses =
-    // cardIdx === info.anilist.id
-    // ? "rounded-2xl h-full w-full p-4 overflow-hidden bg-black group-hover:border-slate-700 relative z-20 cursor-pointer border-green-700 border-2"
-    // :
     "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 cursor-pointer ";
   return (
     <AnimeInfoDialog selectedCardInfo={selectedCardInfo}>
       <div className={cn(cardClasses, className)}>
         <div className="relative z-50 py-2">
           {header}
-          {imageError ? (
+          {/* {imageUrl && !imageError ? (
             <Skeleton className="flex rounded-xl" />
           ) : (
             <>
@@ -130,7 +128,7 @@ export const Card = ({
               />
               {!imageLoaded && <Skeleton className="flex rounded-xl absolute inset-0" />}
             </>
-          )}
+          )} */}
           <div className="p-4">{children}</div>
         </div>
       </div>

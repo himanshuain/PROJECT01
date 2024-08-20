@@ -79,7 +79,7 @@ export const SearchBar = ({ setData, setIsLoading }: SearchBarProps) => {
         <img
           src={imageUrl}
           className="w-1/2 h-1/2 mb-4 object-cover rounded-xl self-center"
-          alt="No image found for this Url."
+          alt="No image found for this URL."
         />
       )}
     </div>

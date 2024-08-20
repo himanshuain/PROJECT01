@@ -32,7 +32,7 @@ export function AnimeInfoDialog({
       {selectedCardInfo?.video && <VideoPlayer videoUrl={`${selectedCardInfo.video}&size=l`} />}
       {selectedCardInfo?.episode && (
         <Label className="py-4">
-          Searched scene is from {selectedCardInfo?.episode || null}th episode.
+          Searched scene is might be from {selectedCardInfo?.episode || null}th episode.
         </Label>
       )}
 

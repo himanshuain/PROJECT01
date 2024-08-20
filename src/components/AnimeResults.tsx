@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 import { SearchBar } from "./SearchBar";
 import { Data, Result } from "@/InterfaceTypes";
+
 export function AnimeResults() {
   const [data, setData] = useState({} as Data);
   const [isMediaDataLoading, setIsMediaDataLoading] = useState(false);
@@ -25,8 +26,9 @@ export function AnimeResults() {
 
   // console.log("showing data", data);
   return (
-    <div className="max-w-5xl mx-auto px-8">
+    <div className="flex flex-col max-w-5xl mx-auto px-8">
       <SearchBar setData={setData} setIsLoading={setIsUrlDataLoading} />
+      <p className="text-muted self-center">OR</p>
       <div className="flex h-full items-center justify-center p-6">
         <ImageInputContainer setData={setData} setIsLoading={setIsMediaDataLoading} />
       </div>

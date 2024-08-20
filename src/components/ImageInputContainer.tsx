@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import * as R from "ramda";
 import { useExtractAnimeUsingMediaUploadQuery } from "@/Service/queries";
 import FileUpload from "./FileUploadDnD";
+import img1 from "/examples/img1.jpeg";
+import img2 from "/examples/img2.gif";
 import { filterDataByUniqueIds } from "@/lib/utils";
 import { Data } from "@/InterfaceTypes";
+import { acceptedFileUploadFormats } from "@/Constants";
 
 export function ImageInputContainer({
   setData,
@@ -20,10 +23,7 @@ export function ImageInputContainer({
   function checkFileTypeOnDnD(file: File) {
     if (!file) return;
 
-    const fileName = file.name.toLowerCase();
-    const acceptedFormats = [".gif", ".jpg", ".jpeg", ".png"];
-
-    if (acceptedFormats.some(format => fileName.endsWith(format))) {
+    if (acceptedFileUploadFormats.some(format => file.type === format)) {
       setFileFormatError(false);
       return true;
     } else {
@@ -31,16 +31,22 @@ export function ImageInputContainer({
       return false;
     }
   }
+  const {
+    refetch: extractAnimeUsingMediaUpload,
+    isFetching: isLoadingMediaUploadData,
+    data: dataUsingMediaUpload,
+  } = useExtractAnimeUsingMediaUploadQuery(file);
 
   const handleFileChange = (file: File) => {
     setFile(file);
   };
 
-  const {
-    refetch: extractAnimeUsingMediaUpload,
-    isLoading: isLoadingMediaUploadData,
-    data: dataUsingMediaUpload,
-  } = useExtractAnimeUsingMediaUploadQuery(file);
+  const handleOnClickExamples = async (image: string) => {
+    const response = await fetch(image);
+    const blob = await response.blob();
+    const exampleFile = new File([blob], "example", { type: blob.type });
+    setFile(exampleFile);
+  };
 
   useEffect(() => {
     if (file && checkFileTypeOnDnD(file)) {
@@ -54,7 +60,6 @@ export function ImageInputContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file, isDataLoaded]);
 
-  // Filter the data based on the anilist ids and top 6 results
   useEffect(() => {
     if (isDataLoaded && dataUsingMediaUpload && !dataUsingMediaUpload?.error) {
       const { data } = dataUsingMediaUpload;
@@ -74,6 +79,27 @@ export function ImageInputContainer({
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="flex flex-row gap-2 items-center justify-center mb-4 w-full">
+          <p className="px-4 text-muted-foreground text-xs">
+            <i>Try it </i>
+          </p>
+          <img
+            onClick={() => handleOnClickExamples(img1)}
+            height={100}
+            width={100}
+            src={img1}
+            alt="anime image"
+            className="cursor-pointer object-cover !m-0 !p-0 object-top rounded-full h-14 w-14 border-2 border-white hover:scale-110 duration-300"
+          />
+          <img
+            onClick={() => handleOnClickExamples(img2)}
+            height={100}
+            width={100}
+            src={img2}
+            alt="anime image"
+            className="cursor-pointer object-cover !m-0 !p-0 object-top rounded-full h-14 w-14 border-2 border-white hover:scale-110 duration-300"
+          />
+        </div>
         <FileUpload handleFileChange={handleFileChange} />
         {fileFormatError && (
           <p className="text-red-500">Selected file is not an image, screenshot or GIF.</p>

@@ -80,9 +80,6 @@ export function ImageInputContainer({
     <div className="flex flex-col items-center justify-center">
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <div className="flex flex-row gap-2 items-center justify-center mb-4 w-full">
-          <p className="px-4 text-muted-foreground text-xs">
-            <i>Try it </i>
-          </p>
           <img
             onClick={() => handleOnClickExamples(img1)}
             height={100}
@@ -99,7 +96,11 @@ export function ImageInputContainer({
             alt="anime image"
             className="cursor-pointer object-cover !m-0 !p-0 object-top rounded-full h-14 w-14 border-2 border-white hover:scale-110 duration-300"
           />
+          <p className="px-4 text-muted-foreground text-xs">
+            <i>Try it</i>
+          </p>
         </div>
+
         <FileUpload handleFileChange={handleFileChange} />
         {fileFormatError && (
           <p className="text-red-500">Selected file is not an image, screenshot or GIF.</p>

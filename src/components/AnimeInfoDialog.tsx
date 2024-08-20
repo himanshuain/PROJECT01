@@ -31,7 +31,7 @@ export function AnimeInfoDialog({
     <DialogHeader className="flex-col">
       {selectedCardInfo?.video && <VideoPlayer videoUrl={`${selectedCardInfo.video}&size=l`} />}
       {selectedCardInfo?.episode && (
-        <Label className="py-4">
+        <Label className="py-4 text-muted-foreground">
           Searched scene is might be from {selectedCardInfo?.episode || null}th episode.
         </Label>
       )}
@@ -82,11 +82,11 @@ export function AnimeInfoDialog({
                 </h4>
 
                 <h2 className="text-xs text-muted-foreground">
-                  Romaji : {animeInfo?.title?.romaji}
+                  In Romaji : {animeInfo?.title?.romaji}
                 </h2>
 
                 <h2 className="text-xs text-muted-foreground">
-                  Native : {animeInfo?.title?.native}
+                  In Native : {animeInfo?.title?.native}
                 </h2>
               </div>
 
